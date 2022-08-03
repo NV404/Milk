@@ -1,0 +1,88 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  number String  @unique
+  name   String?
+
+  addressLine1 String?
+  addressLine2 String?
+  coordinates  String[]
+
+  shopName    String?
+  shopAddress String?
+
+  products Product[]
+
+  carts        Cart[]
+  orders       Order[] @relation("buyer")
+  sellerOrders Order[] @relation("seller")
+}
+
+model Cart {
+  id String @id @default(uuid())
+
+  userID String
+  user   User   @relation(fields: [userID], references: [id])
+
+  productID String
+  product   Product @relation(fields: [productID], references: [id])
+
+  quantity Int @default(1)
+
+  isRemoved Boolean @default(false)
+
+  orderID String?
+  order   Order?  @relation(fields: [orderID], references: [id])
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  name        String
+  imageURL    String?
+  description String?
+
+  price Decimal
+
+  packageType String
+
+  weightUnit String?
+
+  weight Decimal?
+
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id])
+
+  carts Cart[]
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+  price     Decimal
+
+  deliveryCharge Decimal @default(0)
+
+  status String @default("in progress")
+
+  userID String
+  user   User   @relation("buyer", fields: [userID], references: [id])
+
+  sellerId String
+  seller   User   @relation("seller", fields: [sellerId], references: [id])
+
+  carts Cart[]
+}
