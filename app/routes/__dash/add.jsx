@@ -108,8 +108,16 @@ export default function Add() {
             />
           </label>
         ) : (
-          <div className="h-64 w-full flex justify-center items-center">
-            <img src={image.image} alt="preview" className="rounded-lg" />
+          <div
+            className="h-64 w-full rounded-lg"
+            style={{
+              background: `url('${image.image}')`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}
+          >
+            {/* <img src={image.image} alt="preview" className="rounded-lg" /> */}
           </div>
         )}
 

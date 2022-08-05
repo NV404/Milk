@@ -8,6 +8,7 @@ import {
 } from "utils/session.server";
 import { useState } from "react";
 import Field from "~/components/Field";
+import Button from "~/components/Button";
 
 export async function loader({ request }) {
   const userID = await getUserId(request);
@@ -149,14 +150,9 @@ function Generate() {
         maxLength={10}
         required
       />
-      <button
-        type="submit"
-        name="action"
-        value="generate"
-        className="bg-green-200 text-green-800 py-2 w-full rounded-lg font-bold"
-      >
+      <Button type="submit" name="action" value="generate">
         Send OTP
-      </button>
+      </Button>
     </>
   );
 }
@@ -179,14 +175,9 @@ function Verify({ session, number }) {
       <input type="hidden" name="session" value={session} />
       <input type="hidden" name="number" value={number} />
 
-      <button
-        type="submit"
-        name="action"
-        value="verify"
-        className="bg-green-200 text-green-800 py-2 w-full rounded-lg font-bold"
-      >
+      <Button type="submit" name="action" value="verify">
         Submit
-      </button>
+      </Button>
     </>
   );
 }

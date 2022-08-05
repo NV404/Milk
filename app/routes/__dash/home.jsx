@@ -33,6 +33,65 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <p className="font-medium">Sale dashboard</p>
+      <div className="bg-gradient-to-bl from-gray-200 to-gray-150 w-full rounded-xl">
+        <div className="flex justify-between items-end p-4">
+          <div className="rounded-xl bg-blue-500 h-20 w-12"></div>
+          <div className="rounded-xl bg-blue-400 h-16 w-12"></div>
+          <div className="rounded-xl bg-blue-300 h-14 w-12"></div>
+          <div className="rounded-xl bg-blue-200 h-12 w-12"></div>
+        </div>
+        <div className="flex justify-between items-center rounded-xl bg-white p-4">
+          <div className="rounded-full bg-yellow-300 p-2 h-fit">
+            <img src="wave.svg" alt="ana" className="w-5" />
+          </div>
+          <div>
+            <p className="font-bold text-2xl">5M</p>
+            <p>Revenue</p>
+          </div>
+          <div>
+            <p className="font-bold text-2xl">20K</p>
+            <p>items sold</p>
+          </div>
+          <div>
+            <img src="/arrow-right-black.svg" alt="menu" className="w-10" />
+          </div>
+        </div>
+      </div>
+      <p className="font-medium">Recent orders</p>
+      <div className="bg-white rounded-xl items-center flex justify-between">
+        <div
+          className="h-20 w-20 rounded-lg"
+          style={{
+            background: `url('/milk.jpg')`,
+            backgroundSize: "cover",
+          }}
+        ></div>
+        <div>
+          <p className="font-medium text-lg">Milk (1 Liter)</p>
+          <p>Quantity: 5items</p>
+        </div>
+        <div className="pr-5">
+          <img src="/arrow-right-black.svg" alt="menu" className="w-10" />
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl items-center flex justify-between">
+        <div
+          className="h-20 w-20 rounded-lg"
+          style={{
+            background: `url('/milk.jpg')`,
+            backgroundSize: "cover",
+          }}
+        ></div>
+        <div>
+          <p className="font-medium text-lg">Milk (1 Liter)</p>
+          <p>Quantity: 5items</p>
+        </div>
+        <div className="pr-5">
+          <img src="/arrow-right-black.svg" alt="menu" className="w-10" />
+        </div>
+      </div>
     </div>
   );
 }

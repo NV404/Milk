@@ -18,10 +18,10 @@ export async function loader({ request }) {
 export default function __Dash() {
   return (
     <>
-      <div className="mb-12">
+      <div className="mb-20">
         <Outlet />
       </div>
-      <div className="fixed flex justify-between bottom-0 left-0 w-full shadow-lg bg-white p-5 px-20 rounded-full rounded-b-none">
+      <div className="fixed flex justify-between bottom-0 left-0 w-[min(640px,_100%)] shadow-lg bg-white p-5 px-20 rounded-full rounded-b-none lg:left-2/4 lg:-translate-x-1/2">
         <Link to="/home">
           <img src="/home.svg" alt="menu" className="w-7" />
         </Link>
