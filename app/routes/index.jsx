@@ -9,7 +9,7 @@ export async function loader({ request }) {
     if (!user.shopName) {
       return redirect("/onboard");
     }
-    return {};
+    return redirect("/home");
   }
   return redirect("/login");
 }
