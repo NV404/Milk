@@ -161,7 +161,7 @@ function Verify({ session, number }) {
   return (
     <>
       <Field
-        type="text"
+        type="tel"
         name="otp"
         id="otp"
         placeholder="Eg. XXXXXX"

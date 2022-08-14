@@ -1,11 +1,12 @@
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 model User {
@@ -18,10 +19,14 @@ model User {
 
   addressLine1 String?
   addressLine2 String?
-  coordinates  String[]
+  lat          String?
+  lng          String?
 
-  shopName    String?
-  shopAddress String?
+  shopName     String?
+  shopAddress  String?
+  aadharNumber String?
+
+  isSeller Boolean @default(false)
 
   products Product[]
 
@@ -76,7 +81,7 @@ model Order {
 
   deliveryCharge Decimal @default(0)
 
-  status String @default("in progress")
+  status String @default("pending")
 
   userID String
   user   User   @relation("buyer", fields: [userID], references: [id])
