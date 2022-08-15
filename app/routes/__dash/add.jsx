@@ -9,7 +9,6 @@ import { redirect } from "@remix-run/node";
 export async function action({ request }) {
   const formData = await request.formData();
 
-  console.log(formData.get("image"), "formData.get(");
   const data = {
     name: formData.get("name"),
     imageURL: formData.get("image"),
@@ -43,7 +42,7 @@ export default function Add() {
 
   return (
     <div className="flex flex-col items-stretch gap-10 p-10">
-      <Link to="/home">
+      <Link to="/products">
         <div className="flex items-center gap-2 underline">
           <img
             src="arrow-left-fill.svg"
