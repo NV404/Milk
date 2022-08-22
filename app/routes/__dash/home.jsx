@@ -1,90 +1,96 @@
-import { Link } from "@remix-run/react";
-import Button from "~/components/Button";
-import Items from "~/components/Items";
-import Menu from "~/components/Menu";
+import { Link, useLoaderData } from "@remix-run/react";
+import OrderCard from "~/components/OrderCard";
+
+import { getOrders, updateOrderStatus } from "utils/order.server";
+import { getUserById } from "utils/user.server";
+import { getUserId } from "utils/session.server";
+
+export async function loader({ request }) {
+  const orders = await getOrders({ request, pending: true });
+  const userID = await getUserId(request);
+  const user = await getUserById(userID);
+
+  if (orders) {
+    return { orders, user };
+  }
+  return {};
+}
+
+export async function action({ request }) {
+  const formData = await request.formData();
+
+  const id = formData.get("id");
+  const action = formData.get("action");
+
+  if (action) {
+    if (action === "accept") {
+      const order = await updateOrderStatus(id, "accepted");
+      if (order) {
+        return { order };
+      }
+    }
+
+    if (action === "reject") {
+      const order = await updateOrderStatus(id, "rejected");
+      if (order) {
+        return { order };
+      }
+    }
+
+    return {};
+  }
+
+  return {};
+}
 
 export default function Home() {
+  const loaderData = useLoaderData();
+  const orders = loaderData.orders;
+
   return (
     <div className="flex flex-col items-stretch gap-12 p-10">
-      <Menu />
+      <p className="text-center text-3xl font-medium">
+        Hi, {loaderData.user.shopName}!
+      </p>
 
-      <Items>
-        <div className="w-full bg-white p-3 rounded-2xl shadow-sm">
-          <img src="/orders.svg" alt="menu" className="w-20" />
-          <div className="w-full justify-between flex items-center">
-            <div>
-              <p className="font-bold text-2xl">180k</p>
-              <p>orders</p>
-            </div>
-            <img src="/arrow-right-black.svg" alt="menu" className="w-10" />
+      <div className="flex justify-between items-center">
+        <Link to="/products" className="flex flex-col gap-2 items-center">
+          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
+            <img src="/items.svg" alt="menu" className="w-8" />
           </div>
-        </div>
-
-        <Link to="/products" className="w-full">
-          <div className="w-full bg-green-500 p-3 text-white rounded-2xl shadow-sm">
-            <img src="/items.svg" alt="menu" className="w-20" />
-            <div className="w-full justify-between flex items-center">
-              <div>
-                <p className="font-bold text-2xl">180k</p>
-                <p>items</p>
-              </div>
-              <img src="/arrow-right-white.svg" alt="menu" className="w-10" />
-            </div>
-          </div>
+          <p>Products</p>
         </Link>
-      </Items>
-
-      <p className="font-medium">Sale dashboard</p>
-      <div className="bg-gradient-to-bl from-gray-200 to-gray-150 w-full rounded-xl">
-        <div className="flex justify-between items-end p-4">
-          <div className="rounded-xl bg-blue-500 h-20 w-12"></div>
-          <div className="rounded-xl bg-blue-400 h-16 w-12"></div>
-          <div className="rounded-xl bg-blue-300 h-14 w-12"></div>
-          <div className="rounded-xl bg-blue-200 h-12 w-12"></div>
+        <Link to="/orders" className="flex flex-col gap-2 items-center">
+          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
+            <img src="/orders.svg" alt="menu" className="w-8" />
+          </div>
+          <p>orders</p>
+        </Link>
+        <div className="flex flex-col gap-2 items-center">
+          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
+            <img src="/shop.svg" alt="menu" className="w-6" />
+          </div>
+          <p>vendors</p>
         </div>
-        <div className="flex justify-between items-center rounded-xl bg-white p-4">
-          <div className="rounded-full bg-yellow-300 p-2 h-fit">
-            <img src="wave.svg" alt="ana" className="w-5" />
+        <Link to="/account" className="flex flex-col gap-2 items-center">
+          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
+            <img src="/user.svg" alt="menu" className="w-6" />
           </div>
-          <div>
-            <p className="font-bold text-2xl">5M</p>
-            <p>Revenue</p>
-          </div>
-          <div>
-            <p className="font-bold text-2xl">20K</p>
-            <p>items sold</p>
-          </div>
-          <div>
-            <img src="/arrow-right-black.svg" alt="menu" className="w-10" />
-          </div>
-        </div>
+          <p>Account</p>
+        </Link>
       </div>
-      <p className="font-medium">Recent orders</p>
 
-      <div className="bg-white rounded-xl">
-        <div className="items-center flex justify-between">
-          <div
-            className="h-20 w-20 rounded-lg"
-            style={{
-              background: `url('/milk.jpg')`,
-              backgroundSize: "cover",
-            }}
-          ></div>
-          <div>
-            <p className="font-medium text-lg">Milk (1 Liter)</p>
-            <p>Quantity: 5items</p>
-          </div>
-          <div className="pr-5">
-            <img src="/arrow-right-black.svg" alt="menu" className="w-10" />
-          </div>
+      <p className="font-medium">Recent pending orders</p>
+
+      {orders.length > 0 ? (
+        <div className="flex flex-col gap-4">
+          {orders.map((order) => (
+            <OrderCard key={order.id} order={order} />
+          ))}
         </div>
-        <div className="flex gap-2 w-full px-5 py-2 mt-2 border-t-2">
-          <Button className="w-full">Accept</Button>
-          <Button theme="red" className="w-full">
-            Reject
-          </Button>
-        </div>
-      </div>
+      ) : (
+        <p className="font-medium text-center">No pending orders!</p>
+      )}
     </div>
   );
 }

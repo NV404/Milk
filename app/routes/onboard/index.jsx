@@ -3,6 +3,8 @@ import { getUserId } from "utils/session.server";
 import { Form, useActionData } from "@remix-run/react";
 import { getUserById, updateUser } from "utils/user.server";
 import Field from "~/components/Field";
+import Button from "~/components/Button";
+import LocationMarker from "~/icons/LocationMarker";
 
 export async function loader({ request }) {
   const userID = await getUserId(request);
@@ -31,13 +33,13 @@ export async function action({ request }) {
   if (!seller) {
     return { error: "something went wrong" };
   }
-  return redirect("/home");
+  return redirect("sekect-address");
 }
 
 export default function OnBoard() {
   const data = useActionData();
   return (
-    <div className="h-screen flex justify-center flex-col items-stretch bg-gray-150 gap-12 p-10">
+    <div className="h-screen flex justify-center flex-col items-stretch gap-12 p-10">
       <p className="text-center font-bold text-3xl">Gwala</p>
       <div>
         <p className="text-center font-medium text-2xl">Onboarding</p>
@@ -83,14 +85,10 @@ export default function OnBoard() {
             required
           />
         </div>
-        <button
-          type="submit"
-          name="action"
-          value="generate"
-          className="bg-green-200 text-green-800 py-2 w-full rounded-lg font-bold"
-        >
-          Submit
-        </button>
+        <Button type="submit" name="action" value="generate">
+          <LocationMarker />
+          Select Location
+        </Button>
       </Form>
       {data?.error && <p>{data?.error}</p>}
     </div>

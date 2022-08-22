@@ -19,7 +19,7 @@ export default function Dropdown({
       <select
         id={id}
         className={[
-          "inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-slate-200 text-sm font-medium text-gray-700",
+          "inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-sm font-medium text-gray-700",
           className,
         ].join(" ")}
         {...otherProps}

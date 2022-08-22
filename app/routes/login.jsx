@@ -6,7 +6,6 @@ import {
   getUserId,
   verifyOTP,
 } from "utils/session.server";
-import { useState } from "react";
 import Field from "~/components/Field";
 import Button from "~/components/Button";
 
@@ -69,10 +68,9 @@ export async function action({ request }) {
 export default function Login() {
   const transition = useTransition();
   const data = useActionData();
-  const [language, setLanguage] = useState(true);
 
   return (
-    <div className="h-screen flex justify-center flex-col items-stretch  ">
+    <div className="h-screen flex justify-center flex-col items-stretch ">
       <div className="relative grow">
         <div
           className="w-full bg-red-600max-w-full p-10 h-full"
@@ -84,32 +82,11 @@ export default function Login() {
         >
           <p className="text-center font-bold text-3xl text-white">Gwala</p>
         </div>
-        <div className="absolute bottom-0 w-full h-[20vh] z-10 bg-gradient-to-b from-transparent to-white"></div>
+        <div className="absolute bottom-0 w-full h-[20vh] z-10 bg-gradient-to-b from-transparent to-purple-150"></div>
       </div>
 
       <div className="flex flex-col items-stretch justify-start gap-12 w-full p-10">
-        <p className="text-2xl font-bold text-center">
-          {language ? "Welcome" : "नमस्ते"}
-        </p>
-
-        <div className="flex justify-center items-center gap-4">
-          <button
-            className={`py-1 px-4 rounded-lg ${
-              language ? "bg-blue-200 text-blue-800" : "bg-black/20"
-            }`}
-            onClick={() => setLanguage(true)}
-          >
-            English
-          </button>
-          <button
-            className={`py-1 px-4 rounded-lg ${
-              !language ? "bg-blue-200 text-blue-800" : "bg-black/20"
-            }`}
-            onClick={() => setLanguage(false)}
-          >
-            हिंदी
-          </button>
-        </div>
+        <p className="text-2xl font-bold text-center">Welcome</p>
 
         <Form replace method="POST">
           {data?.error && (
@@ -166,7 +143,6 @@ function Verify({ session, number }) {
         placeholder="Eg. XXXXXX"
         label="Enter OTP sent to your phone number"
         maxLength={6}
-        className="bg-slate-200 font-medium px-4 py-2 rounded-lg text-black"
         autoComplete="one-time-code"
         required
       />

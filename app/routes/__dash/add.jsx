@@ -5,6 +5,7 @@ import Field from "~/components/Field";
 import { addProduct } from "utils/product.server";
 // import { uploadImage } from "utils/cloudinary";
 import { redirect } from "@remix-run/node";
+import Button from "~/components/Button";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -70,7 +71,7 @@ export default function Add() {
         {!image ? (
           <label
             for="dropzone-file"
-            class="flex flex-col justify-center items-center w-full h-64 bg-slate-200 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer"
+            class="flex flex-col justify-center items-center w-full h-64 bg-white rounded-lg border-2 border-gray-300 border-dashed cursor-pointer"
           >
             <div class="flex flex-col justify-center items-center pt-5 pb-6">
               <svg
@@ -168,12 +169,7 @@ export default function Add() {
           placeholder="Eg. 1.2"
           required
         />
-        <button
-          type="submit"
-          className="bg-green-200 text-green-800 py-2 w-full rounded-lg font-bold"
-        >
-          Add
-        </button>
+        <Button type="submit">Add</Button>
       </Form>
     </div>
   );

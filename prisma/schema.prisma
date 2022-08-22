@@ -25,8 +25,13 @@ model User {
   shopName     String?
   shopAddress  String?
   aadharNumber String?
+  shopLat      String?
+  shopLng      String?
 
   isSeller Boolean @default(false)
+
+  GSTNumber String?
+  isVendor  Boolean @default(false)
 
   products Product[]
 
@@ -70,6 +75,9 @@ model Product {
   sellerId String
   seller   User   @relation(fields: [sellerId], references: [id])
 
+  categoryID String?
+  category   Category? @relation(fields: [categoryID], references: [id])
+
   carts Cart[]
 }
 
@@ -79,9 +87,13 @@ model Order {
   createdAt DateTime @default(now())
   price     Decimal
 
-  deliveryCharge Decimal @default(0)
+  addressLine1 String?
+  addressLine2 String?
 
-  status String @default("pending")
+  lat String?
+  lng String?
+
+  status String @default("pending") //pending, accepted, rejected, delivered, failed
 
   userID String
   user   User   @relation("buyer", fields: [userID], references: [id])
@@ -90,4 +102,14 @@ model Order {
   seller   User   @relation("seller", fields: [sellerId], references: [id])
 
   carts Cart[]
+}
+
+model Category {
+  id String @id @default(uuid())
+
+  iconURL String
+  name    String
+  slug    String @unique
+
+  products Product[]
 }

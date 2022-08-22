@@ -18,8 +18,13 @@ export async function addProduct({ request, data }) {
   }
 }
 
-export async function getProducts(category) {
-  const products = await db.product.findMany({});
+export async function getProducts({request}) {
+  const sellerId = await getUserId(request);
+  const products = await db.product.findMany({
+    where: {
+      sellerId
+    }
+  });
 
   return products;
 }

@@ -80,8 +80,8 @@ export default function App() {
         <Links />
       </head>
 
-      <body className="h-full bg-gray-150">
-        <div className="w-[min(640px,_100%)] h-full mx-auto ">
+      <body className="h-full bg-purple-150">
+        <div className="w-[min(640px,_100%)] h-full mx-auto pb-16">
           <Outlet />
         </div>
 

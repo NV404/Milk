@@ -21,7 +21,7 @@ export default function Field({
         <As
           id={id}
           className={[
-            "bg-slate-200 w-full font-medium px-4 py-2 rounded-lg text-black",
+            "bg-white w-full font-medium px-4 py-2 rounded-lg text-black",
             className,
           ].join(" ")}
           {...otherProps}
