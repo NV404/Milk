@@ -6,7 +6,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "fullTextIndex"]
 }
 
 model User {
@@ -24,20 +24,27 @@ model User {
 
   shopName     String?
   shopAddress  String?
+  balance      Decimal @default(0)
   aadharNumber String?
   shopLat      String?
   shopLng      String?
 
   isSeller Boolean @default(false)
 
-  GSTNumber String?
-  isVendor  Boolean @default(false)
+  GSTNumber     String?
+  vendorLat     String?
+  vendorLng     String?
+  vendorAddress String?
+  isVendor      Boolean @default(false)
 
   products Product[]
 
   carts        Cart[]
   orders       Order[] @relation("buyer")
   sellerOrders Order[] @relation("seller")
+
+  payments         Payments[] @relation("buyerPayments")
+  paymentsReceived Payments[] @relation("sellerPayments")
 }
 
 model Cart {
@@ -93,7 +100,8 @@ model Order {
   lat String?
   lng String?
 
-  status String @default("pending") //pending, accepted, rejected, delivered, failed
+  status      String  @default("pending") //pending, accepted, rejected, delivered, failed
+  paymentMode String? //cash, online
 
   userID String
   user   User   @relation("buyer", fields: [userID], references: [id])
@@ -112,4 +120,17 @@ model Category {
   slug    String @unique
 
   products Product[]
+}
+
+model Payments {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  from   User   @relation("buyerPayments", fields: [userId], references: [id])
+
+  sellerId String
+  to       User   @relation("sellerPayments", fields: [sellerId], references: [id])
+
+  amount Decimal
 }
