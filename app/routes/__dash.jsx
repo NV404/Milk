@@ -6,6 +6,8 @@ import Home from "~/icons/Home";
 import { useEffect } from "react";
 import NProgress from "nprogress";
 import nProgressStyles from "../styles/nprogress.css";
+import CreditCard from "~/icons/CreditCard";
+import Clock from "~/icons/Clock";
 
 export function links() {
   return [{ rel: "stylesheet", href: nProgressStyles }];
@@ -60,11 +62,11 @@ export default function __Dash() {
         <NavL to="/home" icon={Home}>
           Home
         </NavL>
-        <NavL to="/login" icon={Home}>
+        <NavL to="/login" icon={Clock}>
           Subscriptions
         </NavL>
-        <NavL to="/orders" icon={Home}>
-          Orders
+        <NavL to="/payments" icon={CreditCard}>
+          Payments
         </NavL>
       </nav>
     </>

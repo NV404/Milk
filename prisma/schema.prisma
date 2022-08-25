@@ -100,14 +100,16 @@ model Order {
   lat String?
   lng String?
 
-  status      String  @default("pending") //pending, accepted, rejected, delivered, failed
-  paymentMode String? //cash, online
+  status String @default("pending") //pending, accepted, rejected, delivered, failed
 
   userID String
   user   User   @relation("buyer", fields: [userID], references: [id])
 
   sellerId String
   seller   User   @relation("seller", fields: [sellerId], references: [id])
+
+  transactionId String
+  payment       Payments @relation(fields: [transactionId], references: [id])
 
   carts Cart[]
 }
@@ -132,5 +134,8 @@ model Payments {
   sellerId String
   to       User   @relation("sellerPayments", fields: [sellerId], references: [id])
 
-  amount Decimal
+  amount      Decimal
+  paymentMode String? //cash, online
+
+  order Order[]
 }

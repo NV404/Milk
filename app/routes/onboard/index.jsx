@@ -33,7 +33,7 @@ export async function action({ request }) {
   if (!seller) {
     return { error: "something went wrong" };
   }
-  return redirect("select-address");
+  return redirect("/onboard/select-location");
 }
 
 export default function OnBoard() {

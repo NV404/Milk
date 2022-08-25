@@ -53,31 +53,35 @@ export default function Home() {
         Hi, {loaderData.user.shopName}!
       </p>
 
-      <div className="flex justify-between items-center">
-        <Link to="/products" className="flex flex-col gap-2 items-center">
-          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
-            <img src="/items.svg" alt="menu" className="w-8" />
-          </div>
-          <p>Products</p>
-        </Link>
-        <Link to="/orders" className="flex flex-col gap-2 items-center">
-          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
-            <img src="/orders.svg" alt="menu" className="w-8" />
-          </div>
-          <p>orders</p>
-        </Link>
-        <div className="flex flex-col gap-2 items-center">
-          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
-            <img src="/shop.svg" alt="menu" className="w-6" />
-          </div>
-          <p>vendors</p>
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between">
+          <Link to="/products" className="flex flex-col gap-2 items-center">
+            <div className="w-36 h-24 bg-white rounded-lg flex justify-center items-center">
+              {/* <img src="/items.svg" alt="menu" className="w-8" /> */}
+            </div>
+            <p>Products</p>
+          </Link>
+          <Link to="/orders" className="flex flex-col gap-2 items-center">
+            <div className="w-36 h-24 bg-white rounded-lg flex justify-center items-center">
+              {/* <img src="/orders.svg" alt="menu" className="w-8" /> */}
+            </div>
+            <p>orders</p>
+          </Link>
         </div>
-        <Link to="/account" className="flex flex-col gap-2 items-center">
-          <div className="w-14 h-14 bg-white rounded-full flex justify-center items-center">
-            <img src="/user.svg" alt="menu" className="w-6" />
+        <div className="flex justify-between">
+          <div className="flex flex-col gap-2 items-center">
+            <div className="w-36 h-24 bg-white rounded-lg flex justify-center items-center">
+              {/* <img src="/shop.svg" alt="menu" className="w-6" /> */}
+            </div>
+            <p>vendors</p>
           </div>
-          <p>Account</p>
-        </Link>
+          <Link to="/account" className="flex flex-col gap-2 items-center">
+            <div className="w-36 h-24 bg-white rounded-lg flex justify-center items-center">
+              {/* <img src="/user.svg" alt="menu" className="w-6" /> */}
+            </div>
+            <p>Account</p>
+          </Link>
+        </div>
       </div>
 
       <p className="font-medium">Recent pending orders</p>
