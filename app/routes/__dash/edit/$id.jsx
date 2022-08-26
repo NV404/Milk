@@ -1,17 +1,27 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import Dropdown from "~/components/Dropdown";
 import Field from "~/components/Field";
-import { addProduct } from "utils/product.server";
+import { addProduct, editProduct, getProduct } from "utils/product.server";
 // import { uploadImage } from "utils/cloudinary";
 import { redirect } from "@remix-run/node";
 import Button from "~/components/Button";
 import { getCategoryId } from "utils/category.server";
 
+export async function loader({ params }) {
+  const id = params.id;
+  const product = await getProduct(id);
+  if (product) {
+    return { product };
+  }
+  return {};
+}
+
 export async function action({ request }) {
   const formData = await request.formData();
   const slug = formData.get("category");
   const categoryID = await getCategoryId(slug);
+  const id = formData.get("id");
 
   const data = {
     name: formData.get("name"),
@@ -25,9 +35,9 @@ export async function action({ request }) {
   };
 
   if (data) {
-    const product = await addProduct({ request, data });
+    const product = await editProduct({ id, data });
     if (product) {
-      return redirect("/home");
+      return redirect("/products");
     }
   }
 
@@ -36,6 +46,8 @@ export async function action({ request }) {
 
 export default function Add() {
   const [image, setImage] = useState(null);
+  const loaderData = useLoaderData();
+  const product = loaderData.product;
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -50,7 +62,7 @@ export default function Add() {
       <Link to="/products">
         <div className="flex items-center gap-2 underline">
           <img
-            src="arrow-left-fill.svg"
+            src="/arrow-left-fill.svg"
             alt="arrow-left-fill"
             className="w-7"
           />
@@ -63,11 +75,13 @@ export default function Add() {
         className="flex flex-col gap-4"
         encType="multipart/form-data"
       >
+        <input type="hidden" name="id" value={product.id} />
         <Field
           label="Product name"
           type="text"
           id="name"
           name="name"
+          defaultValue={product.name}
           placeholder="Eg. Milk"
           required
         />
@@ -131,6 +145,7 @@ export default function Add() {
           id="description"
           name="description"
           placeholder="Eg. cow milk"
+          defaultValue={product.description}
           required
         />
         <Field
@@ -140,12 +155,14 @@ export default function Add() {
           id="price"
           name="price"
           placeholder="Eg. 200"
+          defaultValue={product.price}
           required
         />
         <Dropdown
           label="Category"
           id="category"
           name="category"
+          // defaultValue
           options={[
             { value: "milk", text: "Milk" },
             { value: "chach", text: "Chach" },
@@ -185,9 +202,10 @@ export default function Add() {
           id="weight"
           name="weight"
           placeholder="Eg. 1.2"
+          defaultValue={product.weight}
           required
         />
-        <Button type="submit">Add</Button>
+        <Button type="submit">Edit</Button>
       </Form>
     </div>
   );

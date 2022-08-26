@@ -28,6 +28,8 @@ model User {
   aadharNumber String?
   shopLat      String?
   shopLng      String?
+  morningTime  String?
+  eveningTime  String?
 
   isSeller Boolean @default(false)
 
@@ -45,6 +47,9 @@ model User {
 
   payments         Payments[] @relation("buyerPayments")
   paymentsReceived Payments[] @relation("sellerPayments")
+
+  subscriptions       Subscription[] @relation("user")
+  sellerSubscriptions Subscription[] @relation("shop")
 }
 
 model Cart {
@@ -138,4 +143,19 @@ model Payments {
   paymentMode String? //cash, online
 
   order Order[]
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  status String //active, inactive
+
+  userId     String
+  subscriber User   @relation("user", fields: [userId], references: [id])
+
+  sellerId String
+  seller   User   @relation("shop", fields: [sellerId], references: [id])
+
+  message String
 }

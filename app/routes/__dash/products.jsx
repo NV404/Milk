@@ -1,5 +1,5 @@
-import { Link, useLoaderData } from "@remix-run/react";
-import { getProducts } from "utils/product.server";
+import { Form, Link, useLoaderData } from "@remix-run/react";
+import { deleteProduct, getProducts } from "utils/product.server";
 import Button from "~/components/Button";
 import Trash from "~/icons/Trash";
 
@@ -9,6 +9,20 @@ export async function loader({ request }) {
     return { products };
   }
   return {};
+}
+
+export async function action({ request }) {
+  const formData = await request.formData();
+
+  const action = formData.get("action");
+  const id = formData.get("id");
+
+  if (action === "delete") {
+    const product = await deleteProduct(id);
+    return product;
+  }
+
+  return null;
 }
 
 export default function Products() {
@@ -52,10 +66,15 @@ export default function Products() {
               | {product.description}
             </p>
             <div className="flex gap-2 mt-2">
-              <Button className="w-full">Edit</Button>
-              <Button theme="red">
-                <Trash />
+              <Button as={Link} to={`/edit/${product.id}`} className="w-full">
+                Edit
               </Button>
+              <Form method="post">
+                <input type="hidden" name="id" value={product.id} />
+                <Button type="submit" name="action" value="delete" theme="red">
+                  <Trash />
+                </Button>
+              </Form>
             </div>
           </div>
         </div>

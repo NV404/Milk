@@ -1,6 +1,21 @@
 import Button from "~/components/Button";
 import Dropdown from "~/components/Dropdown";
 import { Link } from "@remix-run/react";
+import { getUserId } from "utils/session.server";
+import { getUserById } from "utils/user.server";
+import { redirect } from "@remix-run/node";
+
+export async function loader({ request }) {
+  const userID = await getUserId(request);
+  if (userID) {
+    const user = await getUserById(userID);
+    if (!user.shopName) {
+      return redirect("/onboard");
+    }
+    return redirect("/home");
+  }
+  return null;
+}
 
 export default function Index() {
   return (

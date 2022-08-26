@@ -24,8 +24,9 @@ export async function action({ request }) {
   const data = {
     shopName: formData.get("shopName"),
     shopAddress: formData.get("shopAddress"),
-    name: formData.get("name"),
     aadharNumber: formData.get("aadharNumber"),
+    morningTime: formData.get("morningTime"),
+    eveningTime: formData.get("eveningTime"),
     isSeller: true,
   };
 
@@ -40,7 +41,6 @@ export default function OnBoard() {
   const data = useActionData();
   return (
     <div className="h-screen flex justify-center flex-col items-stretch gap-12 p-10">
-      <p className="text-center font-bold text-3xl">Gwala</p>
       <div>
         <p className="text-center font-medium text-2xl">Onboarding</p>
         <p className="text-center ">
@@ -48,18 +48,10 @@ export default function OnBoard() {
         </p>
       </div>
       <Form
-        className="relative grow flex justify-center flex-col items-stretch"
+        className="relative grow flex justify-center gap-6 flex-col items-stretch"
         method="post"
       >
         <div className="relative grow flex flex-col gap-4">
-          <Field
-            type="text"
-            name="name"
-            id="name"
-            label="Enter your name"
-            placeholder="Eg. Ram Lal"
-            required
-          />
           <Field
             type="text"
             name="shopName"
@@ -82,6 +74,20 @@ export default function OnBoard() {
             id="aadharNumber"
             label="Enter your aadhar card number"
             placeholder="Eg. 1800xxxxxxxx69"
+            required
+          />
+          <Field
+            type="time"
+            name="morningTime"
+            id="morningTime"
+            label="Select morning delivery time"
+            required
+          />
+          <Field
+            type="time"
+            name="eveningTime"
+            id="eveningTime"
+            label="Select evening delivery time"
             required
           />
         </div>

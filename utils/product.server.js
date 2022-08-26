@@ -18,12 +18,32 @@ export async function addProduct({ request, data }) {
   }
 }
 
-export async function getProducts({request}) {
+export async function editProduct({ id, data }) {
+  const product = await db.product.update({
+    where: { id },
+    data,
+  });
+  if (product) {
+    return product;
+  }
+}
+
+export async function getProduct(id) {
+  const product = await db.product.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return product;
+}
+
+export async function getProducts({ request }) {
   const sellerId = await getUserId(request);
   const products = await db.product.findMany({
     where: {
-      sellerId
-    }
+      sellerId,
+    },
   });
 
   return products;
@@ -58,4 +78,14 @@ export async function searchProducts(query, category) {
     },
   });
   return products;
+}
+
+export async function deleteProduct(id) {
+  const product = await db.product.delete({
+    where: {
+      id,
+    },
+  });
+
+  return product;
 }
