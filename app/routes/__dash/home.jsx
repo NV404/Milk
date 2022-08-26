@@ -8,8 +8,6 @@ import { getUserId } from "utils/session.server";
 import Field from "~/components/Field";
 import Pencil from "~/icons/Pencil";
 import Button from "~/components/Button";
-import { useEffect, useState } from "react";
-import { reactLocalStorage } from "reactjs-localstorage";
 
 export async function loader({ request }) {
   const orders = await getOrders({ request, pending: true });
@@ -62,35 +60,12 @@ export async function action({ request }) {
 export default function Home() {
   const loaderData = useLoaderData();
   const orders = loaderData.orders;
-  const [offlineOrders, setOfflineOrders] = useState(null);
-  const [isOffline, setIsOffline] = useState(false);
-
-  useEffect(() => {
-    checkConnectivity(online, offline).then((data) => console.log(data));
-    setOfflineOrders(localStorage.getItem("orders"));
-  }, []);
-
-  const online = () => {
-    console.log("user is online");
-  };
-
-  const offline = () => {
-    setIsOffline(true);
-  };
 
   return (
     <div className="flex flex-col items-stretch gap-12 p-10">
       <p className="text-center text-3xl font-medium">
         Hi, {loaderData.user.shopName}!
       </p>
-
-      {isOffline ? (
-        <>
-          {offlineOrders.map((order) => (
-            <OrderCard key={order.id} order={order} />
-          ))}
-        </>
-      ) : null}
 
       <Form
         method="post"
