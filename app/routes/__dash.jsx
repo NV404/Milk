@@ -62,7 +62,7 @@ export default function __Dash() {
         <NavL to="/home" icon={Home}>
           Home
         </NavL>
-        <NavL to="/login" icon={Clock}>
+        <NavL to="/subscriptions" icon={Clock}>
           Subscriptions
         </NavL>
         <NavL to="/payments" icon={CreditCard}>

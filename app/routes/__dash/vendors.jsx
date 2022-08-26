@@ -28,7 +28,7 @@ export default function Vendors() {
               Address:
               {vendor.vendorAddress}
             </a>
-            <p>Capacity: 100 Litre</p>
+            <p>Daily capacity: {vendor.dailyConsumption} Litre</p>
           </div>
         </Card>
       ))}

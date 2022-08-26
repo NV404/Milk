@@ -1,8 +1,7 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { getOrders, updateOrderStatus } from "utils/order.server";
-import Button from "~/components/Button";
 import OrderCard from "~/components/OrderCard";
-import Trash from "~/icons/Trash";
+import { useEffect } from "react";
 
 export async function loader({ request }) {
   const orders = await getOrders({ request });
@@ -42,6 +41,10 @@ export async function action({ request }) {
 export default function Products() {
   const loaderData = useLoaderData();
   const orders = loaderData.orders;
+
+  useEffect(() => {
+    localStorage.setItem("orders", JSON.stringify(orders));
+  }, [orders]);
 
   return (
     <div className="flex flex-col items-stretch gap-10 p-10">
